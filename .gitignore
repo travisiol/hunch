@@ -1,0 +1,36 @@
+# dependencies (root and every sub-package)
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# build / test output
+/build
+*.tsbuildinfo
+/coverage
+dev.log
+
+# hardhat
+contracts/artifacts/
+contracts/cache/
+contracts/typechain-types/
+contracts/deployments/local*.json
+
+# env
+.env
+.env.*
+!.env.example
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+/captures/
+
+# logs
+*.log

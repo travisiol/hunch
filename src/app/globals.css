@@ -1,0 +1,310 @@
+@import "tailwindcss";
+
+/*
+ * HUNCH design tokens. Warm near-black, bone ink, one amber signal.
+ * Spacing is 1px per unit so `px-16` is 16px — every layout number is a pixel.
+ */
+@theme {
+  --spacing: 1px;
+
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-poster: var(--font-unbounded), Impact, "Arial Black", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: var(--font-display);
+
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-20: 20px;
+  --text-24: 24px;
+  --text-32: 32px;
+  --text-40: 40px;
+
+  --color-bg: #0f0e0b;
+  --color-panel: #161410;
+  --color-panel-2: #1e1b15;
+  --color-ink: #f3eee4;
+  --color-muted: #8f8779;
+  --color-line: #2a2620;
+  --color-line-strong: #4d4536;
+  --color-accent: #ffb000;
+  --color-accent-2: #ffcf57;
+  --color-accent-ink: #14110a;
+  --color-paper: #f3eee4;
+  --color-paper-2: #e6dfd1;
+  --color-yes: #35d07f;
+  --color-no: #ff5c5c;
+  --color-long: #35d07f;
+  --color-short: #ff5c5c;
+  --color-white: #fff;
+  --color-black: #000;
+
+  --tracking-label: 0.16em;
+  --leading-tight: 1.15;
+  --leading-relaxed: 1.65;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+  button {
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+  }
+  input,
+  textarea {
+    font: inherit;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    appearance: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Small uppercase mono caption. */
+  .hn-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  /* Numbers line up. */
+  .hn-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Poster type: the heavy geometric face, uppercase, tight. */
+  .hn-poster {
+    font-family: var(--font-poster);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+  }
+  /* A framed surface: two amber corner brackets appear on hover / focus. */
+  .hn-frame {
+    position: relative;
+  }
+  .hn-frame::before,
+  .hn-frame::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--color-accent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .hn-frame::before {
+    top: -2px;
+    left: -2px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .hn-frame::after {
+    right: -2px;
+    bottom: -2px;
+    border-left: 0;
+    border-top: 0;
+  }
+  .hn-frame:hover,
+  .hn-frame:focus-within {
+    border-color: var(--color-line-strong);
+  }
+  .hn-frame:hover::before,
+  .hn-frame:hover::after,
+  .hn-frame:focus-within::before,
+  .hn-frame:focus-within::after {
+    opacity: 1;
+  }
+  /* The viewfinder button: four brackets, always on. */
+  .hn-bracket {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-panel);
+    color: var(--color-ink);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s,
+      color 0.15s;
+  }
+  .hn-bracket > i {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--color-accent);
+    pointer-events: none;
+    transition: transform 0.2s;
+  }
+  .hn-bracket > i:nth-child(1) {
+    top: -3px;
+    left: -3px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .hn-bracket > i:nth-child(2) {
+    top: -3px;
+    right: -3px;
+    border-left: 0;
+    border-bottom: 0;
+  }
+  .hn-bracket > i:nth-child(3) {
+    right: -3px;
+    bottom: -3px;
+    border-left: 0;
+    border-top: 0;
+  }
+  .hn-bracket > i:nth-child(4) {
+    bottom: -3px;
+    left: -3px;
+    border-right: 0;
+    border-top: 0;
+  }
+  .hn-bracket:hover {
+    border-color: var(--color-accent);
+  }
+  .hn-bracket:hover > i:nth-child(1) {
+    transform: translate(-3px, -3px);
+  }
+  .hn-bracket:hover > i:nth-child(2) {
+    transform: translate(3px, -3px);
+  }
+  .hn-bracket:hover > i:nth-child(3) {
+    transform: translate(3px, 3px);
+  }
+  .hn-bracket:hover > i:nth-child(4) {
+    transform: translate(-3px, 3px);
+  }
+  .hn-bracket--solid {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+  .hn-bracket--solid > i {
+    border-color: var(--color-ink);
+  }
+  .hn-bracket--solid:hover {
+    background: var(--color-accent-2);
+    border-color: var(--color-accent-2);
+  }
+  .hn-bracket--paper {
+    background: var(--color-paper);
+    border-color: var(--color-accent-ink);
+    color: var(--color-accent-ink);
+  }
+  .hn-bracket--paper > i {
+    border-color: var(--color-accent-ink);
+  }
+  /* Horizontal overflow without breaking the page. */
+  .scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Landing: scroll reveal, driven by the scroll position itself — no JS, nothing hidden when scripts are slow. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      animation: none;
+    }
+  }
+  /* Landing: the price tape. */
+  .tape {
+    display: flex;
+    width: max-content;
+    animation: tape 70s linear infinite;
+  }
+  .tape:hover {
+    animation-play-state: paused;
+  }
+  @keyframes tape {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tape {
+      animation: none;
+    }
+  }
+  /* A blinking cursor after the typed headline. */
+  .caret::after {
+    content: "";
+    display: inline-block;
+    width: 0.08em;
+    height: 0.82em;
+    margin-left: 0.06em;
+    background: var(--color-accent);
+    vertical-align: -0.04em;
+    animation: caret 1s steps(2, start) infinite;
+  }
+  @keyframes caret {
+    to {
+      visibility: hidden;
+    }
+  }
+  /* Inverted paper section. */
+  .paper {
+    background: var(--color-paper);
+    color: var(--color-accent-ink);
+  }
+  .paper .hn-label {
+    color: #6f6757;
+  }
+}
